@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,14 +20,31 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+});
+
 Route::get('users', function () {
     return response(User::all(),200);
 });
 
 Route::post('users', function(Request $request) {
-    $resp = User::create($request->all());
+    $resp = User::create([
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'type' => $request->type
+    ]);
     return $resp;
 });
+
 
 Route::get('jobs/{search}', function(Request $request, $searchTerm){
     
