@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\User;
+use App\ApplicantAdditionalData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +29,7 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::post('me', 'AuthController@meData');
 
 });
 
@@ -37,12 +38,22 @@ Route::get('users', function () {
 });
 
 Route::post('users', function(Request $request) {
-    $resp = User::create([
+    $user = User::create([
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'type' => $request->type
     ]);
-    return $resp;
+    if($request->type == 1){
+        $user_info = ApplicantAdditionalData::create([
+            'user_id' => $user->id
+        ]);
+    } else {
+        $user_info = BusinessAdditionalData::create([
+            'user_id' => $user->id
+        ]);
+    }
+            
+    return $user;
 });
 
 

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BusinessAdditionalDataSeeder::class);
         $this->call(BusinessJobsRequirementTableSeeder::class);
         $this->call(ApplicantAdditionalDataSeeder::class);
+        $this->call(ApplicantRequirementTableSeeder::class);
 
-        // TODO -> do the fucking seeder for business job requirements
     }
 }

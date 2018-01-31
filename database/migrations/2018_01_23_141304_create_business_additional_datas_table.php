@@ -15,8 +15,8 @@ class CreateBusinessAdditionalDatasTable extends Migration
     {
         Schema::create('business_additional_datas', function (Blueprint $table) {
             $table->integer('user_id');
-            $table->string('business_name');
-            $table->string('description', 1000);
+            $table->string('business_name')->nullable();
+            $table->string('description', 1000)->nullable();
             $table->timestamps();
         });
     }

@@ -16,10 +16,11 @@ class CreateApplicantAdditionalDatasTable extends Migration
         Schema::create('applicant_additional_datas', function (Blueprint $table) {
             $table->integer('user_id');
             $table->timestamps();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('resume_path');
-            $table->date('date_of_birth');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('resume_path')->nullable();
+            $table->string('picture_path')->nullable();
+            $table->date('date_of_birth')->nullable();
         });
     }
 

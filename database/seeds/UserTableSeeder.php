@@ -24,7 +24,7 @@ class UserTableSeeder extends Seeder
             }
             User::create([
                 'email' => $faker->unique()->email,
-                'password' => '1',
+                'password' => '$2y$10$W41Z.GsEeW5b/Qm1OzUtQOhuGCPl2nZJLXt6tiB0CrEwvb5vOw1sa',
                 'type' => 1
                 ]);
         }
@@ -37,7 +37,7 @@ class UserTableSeeder extends Seeder
             }
             User::create([
                 'email' => $faker->unique()->email,
-                'password' => '1',
+                'password' => '$2y$10$W41Z.GsEeW5b/Qm1OzUtQOhuGCPl2nZJLXt6tiB0CrEwvb5vOw1sa',
                 'type' => 2
                 ]);
         }

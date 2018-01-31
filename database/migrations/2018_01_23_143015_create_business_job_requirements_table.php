@@ -16,8 +16,8 @@ class CreateBusinessJobRequirementsTable extends Migration
         Schema::create('business_job_requirements', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('job_id');
-            $table->string('requirement');
-            $table->integer('years_exp');
+            $table->string('requirement')->nullable();
+            $table->integer('years_exp')->nullable();
             $table->timestamps();
         });
     }

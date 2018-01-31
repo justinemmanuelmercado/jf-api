@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\ApplicantAdditionalData;
+use App\BusinessAdditionalData;
+use App\BusinessJob;
+use App\BusinessJobRequirement;
+use App\ApplicantRequirement;
+
 
 class AuthController extends Controller
 {
@@ -41,6 +47,35 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(auth()->user());
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function meData()
+    {
+        $id = auth()->user()->id;
+        $type = auth()->user()->type;
+        /**
+         *  1 -> applicant, 2 -> business
+         */
+
+        if($type === 1){
+            $userAdditional = ApplicantAdditionalData::find($id);
+            $requirements =  ApplicantRequirement::select('*')->where('applicant_id', $id)->get();
+        } else {
+            $userAdditional = BusinessAdditionalData::find($id);
+            $requirements = BusinessJob::select('*')->where('business_id', $id)->get();
+        };
+        $response = [
+            'id' => $id,
+            'type' => $type,
+            'data' => $userAdditional ? $userAdditional->toArray() : [],
+            'requirements' => $requirements ? $requirements->toArray() : []
+        ];
+        return response()->json($response);
     }
 
     /**
