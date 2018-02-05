@@ -62,8 +62,7 @@ Route::get('jobs/{search}', function(Request $request, $searchTerm){
     $query = "SELECT * FROM business_jobs AS bj
     LEFT JOIN business_additional_datas AS bad 
         ON bj.business_id = bad.user_id
-        ORDER BY RAND()
-        LIMIT 10";
+        ORDER BY RAND()";
    
    $products = DB::select($query, []);
 

@@ -67,13 +67,17 @@ class AuthController extends Controller
             $requirements =  ApplicantRequirement::select('*')->where('applicant_id', $id)->get();
         } else {
             $userAdditional = BusinessAdditionalData::find($id);
-            $requirements = BusinessJob::select('*')->where('business_id', $id)->get();
+            $requirements = BusinessJob::select('*')->where('business_id', $id)->get()->toArray();
+            foreach ($requirements as $index=>$requirement){
+                $jobRequirements = BusinessJobRequirement::select('*')->where('job_id', $requirement['id'])->get()->toArray();
+                $requirements[$index]['jobRequirements'] = $jobRequirements;
+            };
         };
         $response = [
             'id' => $id,
             'type' => $type,
             'data' => $userAdditional ? $userAdditional->toArray() : [],
-            'requirements' => $requirements ? $requirements->toArray() : []
+            'requirements' => $requirements ? $requirements : []
         ];
         return response()->json($response);
     }

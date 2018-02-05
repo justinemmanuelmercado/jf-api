@@ -22,12 +22,14 @@ class ApplicantRequirementTableSeeder extends Seeder
             $noOfSkills = $faker1->numberBetween(3, count($arrayOfSkills));
             for($j = 0; $j < $noOfSkills; $j++){
                 $faker2 = \Faker\Factory::create();
-
+                $randInd = $faker2->unique()->numberBetween(0, count($arrayOfSkills) - 1);
                 ApplicantRequirement::create([
                     'applicant_id' => $id,
-                    'skill' => $arrayOfSkills[$faker2->unique()->numberBetween(0, count($arrayOfSkills) - 1)],
+                    'skill' => $arrayOfSkills[$randInd],
                     'years_exp' => $faker2->numberBetween(0, 10)
                     ]);
+                unset($arrayOfSkills[$randInd]);
+                $arrayOfSkills = array_values($arrayOfSkills);
             }
         }
     }

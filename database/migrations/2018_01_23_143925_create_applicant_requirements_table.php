@@ -14,6 +14,7 @@ class CreateApplicantRequirementsTable extends Migration
     public function up()
     {
         Schema::create('applicant_requirements', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('applicant_id');
             $table->string('skill');
             $table->integer('years_exp');
