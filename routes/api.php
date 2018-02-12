@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\User;
 use App\ApplicantAdditionalData;
+use App\BusinessJobRequirement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -57,14 +58,17 @@ Route::post('users', function(Request $request) {
 });
 
 
-Route::get('jobs/{search}', function(Request $request, $searchTerm){
+Route::get('jobs', function(Request $request){
     
     $query = "SELECT * FROM business_jobs AS bj
     LEFT JOIN business_additional_datas AS bad 
         ON bj.business_id = bad.user_id
         ORDER BY RAND()";
-   
-   $products = DB::select($query, []);
 
-    return $products;
+    $requirements = DB::select($query, []);
+    foreach ($requirements as $index=>$requirement){
+        $jobRequirements = BusinessJobRequirement::select('*')->where('job_id', $requirement->id)->get()->toArray();
+        $requirements[$index]->jobRequirements = $jobRequirements;
+    };
+    return $requirements;
 });
