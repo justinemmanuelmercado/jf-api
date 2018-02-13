@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use App\User;
 use App\ApplicantAdditionalData;
 use App\BusinessJobRequirement;
+use App\BusinessJob;
+use App\ApplicantRequirement;
+use App\BusinessAdditionalData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -71,4 +74,40 @@ Route::get('jobs', function(Request $request){
         $requirements[$index]->jobRequirements = $jobRequirements;
     };
     return $requirements;
+});
+
+Route::get('users/{id}', function(Request $request, $id) {
+    $userInfo = User::find($id)->toArray();
+    $type = $userInfo['type'];
+
+    if($type === 1){
+        $userAdditional = ApplicantAdditionalData::find($id);
+        $requirements =  ApplicantRequirement::select('*')->where('applicant_id', $id)->get();
+    } else {
+        $userAdditional = BusinessAdditionalData::find($id);
+        $requirements = BusinessJob::select('*')->where('business_id', $id)->get()->toArray();
+        foreach ($requirements as $index=>$requirement){
+            $jobRequirements = BusinessJobRequirement::select('*')->where('job_id', $requirement['id'])->get()->toArray();
+            $requirements[$index]['jobRequirements'] = $jobRequirements;
+        };
+    };
+    $response = [
+        'id' => $id,
+        'type' => $type,
+        'data' => $userAdditional ? $userAdditional->toArray() : [],
+        'requirements' => $requirements ? $requirements : []
+    ];
+    return response()->json($response);
+});
+
+Route::get('/jobs/{id}', function(Request $request, $id) {
+    $jobInfo = BusinessJob::find($id)->toArray();
+    $jobRequirements = BusinessJobRequirement::select('*')->where('job_id', $id)->get()->toArray();
+
+    $response = [
+        'job_info' => $jobInfo,
+        'job_requirements' => $jobRequirements
+    ];
+
+    return response()->json($response);
 });
