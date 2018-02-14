@@ -9,6 +9,8 @@ use App\BusinessAdditionalData;
 use App\BusinessJob;
 use App\BusinessJobRequirement;
 use App\ApplicantRequirement;
+use App\Messages;
+use App\User;
 
 
 class AuthController extends Controller
@@ -117,6 +119,57 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+    
+    /**
+     * Send message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function message()
+    {
+        $id = auth()->user()->id;
+
+        $newMessage = Messages::create([
+            'recipient' => request('recipient'),
+            'message' => request('message'),
+            'sender' => $id
+        ]);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
+    public function getMessage() {
+        $userId = auth()->user()->id;
+        $recipientId = request('recipient');
+        $recipient = User::find($recipientId);
+        $recipientType = $recipient->type;
+        $recipientAdditional = [];
+
+        if($recipientType === 1){
+            $recipientAdditional = ApplicantAdditionalData::find($recipientId);
+        } else {
+            $recipientAdditional = BusinessAdditionalData::find($recipientId);
+        };
+
+        $messages = Messages::where([
+            'sender' => $userId,
+            'recipient' => $recipientId
+            ])
+            ->orWhere([
+                'sender' => $recipientId,
+                'recipient' => $userId
+            ])
+            ->get()->toArray();
+            
+        return response()->json([
+            'recipient' => [
+                'additional' => $recipientAdditional,
+                'recipient' => $recipient->toArray()
+            ],
+            'messages' => $messages
         ]);
     }
 }
