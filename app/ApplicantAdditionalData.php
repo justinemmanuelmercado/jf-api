@@ -8,5 +8,5 @@ class ApplicantAdditionalData extends Model
 {
     //
     protected $primaryKey = 'user_id';
-    protected $fillable = ['user_id'];
+    protected $fillable = ['user_id', 'date_of_birth', 'first_name', 'last_name', ];
 }

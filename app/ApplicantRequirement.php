@@ -8,5 +8,5 @@ class ApplicantRequirement extends Model
 {
     //
     protected $primaryKey = 'applicant_id';
-    protected $fillable = ['applicant_id'];
+    protected $fillable = ['applicant_id', 'skill', 'years_exp'];
 }

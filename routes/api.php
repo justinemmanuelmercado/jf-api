@@ -113,3 +113,37 @@ Route::get('/jobs/{id}', function(Request $request, $id) {
 
     return response()->json($response);
 });
+
+Route::get('skills', function(Request $request){
+    
+    $query = "SELECT DISTINCT requirement FROM business_job_requirements";
+
+    $requirements = DB::select($query, []);
+    
+    return $requirements;
+});
+
+Route::post('skills/applicant', function(Request $request){
+    $applicant = ApplicantRequirement::create([
+        'skill' => $request->skillName,
+        'years_exp' => $request->skillYears,
+        'applicant_id' => $request->id
+    ]);
+
+    return [
+        'message' => 'success'
+    ];
+});
+
+Route::post('applicant', function(Request $request){
+    
+    $applicant = ApplicantAdditionalData::updateOrCreate(
+        ['user_id' => $request->id], [
+            'first_name' => $request->firstName,
+            'last_name' => $request->lastName,
+            'date_of_birth' => $request->dateOfBirth,
+            'user_id' => $request->id
+        ]);
+        
+    return response()->json($applicant);
+});
