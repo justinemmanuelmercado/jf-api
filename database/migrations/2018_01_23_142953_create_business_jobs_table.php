@@ -17,9 +17,6 @@ class CreateBusinessJobsTable extends Migration
             $table->increments('id');
             $table->integer('business_id');
             $table->string('job_title');
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('address')->nullable();
             $table->string('description', 1000)->nullable();
             $table->timestamps();
         });

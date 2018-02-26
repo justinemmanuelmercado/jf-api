@@ -19,7 +19,9 @@ class BusinessAdditionalDataSeeder extends Seeder
             BusinessAdditionalData::create([
                 'user_id' => $faker->unique()->numberBetween(26, 50),
                 'business_name' => $faker->company,
-                'description' => $faker->realText(1000) 
+                'description' => $faker->realText(1000),
+                'latitude' => $faker->latitude(),
+                'longitude' => $faker->longitude()
                 ]);
         }
     }

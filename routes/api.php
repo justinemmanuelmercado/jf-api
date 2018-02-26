@@ -147,3 +147,49 @@ Route::post('applicant', function(Request $request){
         
     return response()->json($applicant);
 });
+
+
+Route::post('applicant/delete', function(Request $request){
+    ApplicantRequirement::destroy($request->id);
+
+    return response()->json([
+        'message' => 'success'
+    ]);
+});
+
+Route::post('business/job', function(Request $request){
+    $job = BusinessJob::create([
+        'business_id' => $request->businessId,
+        'job_title' => $request->jobTitle,
+        'description' => $request->description
+    ]);
+
+    $jobId = $job->id;
+
+    foreach($request->requirements as $requirement){
+        $req = BusinessJobRequirement::create([
+            'requirement' => $requirement['skill'],
+            'years_exp' => $requirement['years_exp'],
+            'job_id' => $jobId
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'success'
+    ]);
+});
+
+Route::post('business/update', function(Request $request){
+    
+    $business = BusinessAdditionalData::updateOrCreate(
+        ['user_id' => $request->id], [
+            'business_name' => $request->businessName,
+            'description' => $request->description,
+            'user_id' => $request->id,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
+
+        ]);
+        
+    return response()->json($business);
+});

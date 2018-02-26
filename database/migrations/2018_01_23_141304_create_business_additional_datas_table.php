@@ -17,6 +17,8 @@ class CreateBusinessAdditionalDatasTable extends Migration
             $table->integer('user_id');
             $table->string('business_name')->nullable();
             $table->string('description', 1000)->nullable();
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
             $table->timestamps();
         });
     }

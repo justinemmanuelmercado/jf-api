@@ -19,9 +19,6 @@ class BusinessJobsTableSeeder extends Seeder
             BusinessJob::create([
                 'business_id' => $faker->numberBetween(25, 50),
                 'job_title' => $faker->jobTitle,
-                'state' => $faker->state,
-                'address' => $faker->streetAddress,
-                'city' => $faker->city,
                 'description' => $faker->realText(1000) 
                 ]);
         }
