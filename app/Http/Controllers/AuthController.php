@@ -155,12 +155,12 @@ class AuthController extends Controller
         };
 
         $messages = Messages::where([
-            'sender' => $userId,
-            'recipient' => $recipientId
+            ['sender', '=', $userId],
+            ['recipient', '=', $recipientId]
             ])
             ->orWhere([
-                'sender' => $recipientId,
-                'recipient' => $userId
+                ['sender', '=', $recipientId],
+                ['recipient', '=', $userId]
             ])
             ->get()->toArray();
             
