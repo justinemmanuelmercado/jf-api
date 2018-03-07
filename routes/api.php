@@ -142,7 +142,11 @@ Route::post('applicant', function(Request $request){
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'date_of_birth' => $request->dateOfBirth,
-            'user_id' => $request->id
+            'user_id' => $request->id,
+            'number' => $request->number,
+            'education_attained'  => $request->educationAttained,
+            'education'  => $request->education,
+            'email'  => $request->email,
         ]);
         
     return response()->json($applicant);

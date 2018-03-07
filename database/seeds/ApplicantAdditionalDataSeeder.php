@@ -21,7 +21,11 @@ class ApplicantAdditionalDataSeeder extends Seeder
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
                 'resume_path' => '',
-                'date_of_birth' => $faker->dateTimeThisCentury->format('Y-m-d') 
+                'date_of_birth' => $faker->dateTimeThisCentury->format('Y-m-d'),
+                'number' => $faker->phoneNumber,
+                'education_attained' => $faker->numberBetween(1,3),
+                'education' => $faker->jobTitle,
+                'email' => $faker->email 
                 ]);
         }
     }

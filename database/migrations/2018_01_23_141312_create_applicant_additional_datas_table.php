@@ -21,6 +21,10 @@ class CreateApplicantAdditionalDatasTable extends Migration
             $table->string('resume_path')->nullable();
             $table->string('picture_path')->nullable();
             $table->date('date_of_birth')->nullable();
+            $table->string('number')->nullable();
+            $table->integer('education_attained')->nullable();
+            $table->string('education')->nullable();
+            $table->string('email')->nullable();
         });
     }
 
