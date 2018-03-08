@@ -25,6 +25,7 @@ class CreateApplicantAdditionalDatasTable extends Migration
             $table->integer('education_attained')->nullable();
             $table->string('education')->nullable();
             $table->string('email')->nullable();
+            $table->string('extra_skills', 1000)->nullable();
         });
     }
 

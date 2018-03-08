@@ -147,6 +147,7 @@ Route::post('applicant', function(Request $request){
             'education_attained'  => $request->educationAttained,
             'education'  => $request->education,
             'email'  => $request->email,
+            'extra_skills' => $request->extraSkills
         ]);
         
     return response()->json($applicant);
